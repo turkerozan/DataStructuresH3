@@ -64,6 +64,7 @@ int main()
         }
 
     }
+
     for(i = 0; i < total +1; i++)
         free(wordGraph[i]);
 	free(wordGraph);
