@@ -53,23 +53,27 @@ int main()
         exit(1);
         }
     }
+    //For edges it should be 0
     for(i=0; i< total;i++){
         wordGraph[i][i]=0;
     }
+    //Fill adj. Matrix with isEdge function
+    //Because it is symmetrical, i-j = j-i on matrix
     for(i = 0; i < total ; i++){
         for(j = i+1; j<total ; j++){
                 k = isEdge(words[i],words[j]);
-            if( k == 1){
+            if( k == 1){//if k = 1; then it means only 1 difference occured
                 wordGraph[i][j]=1;
                 wordGraph[j][i]=1;
             }
-            else{
+            else{//else fill with 0
                 wordGraph[i][j]=0;
                 wordGraph[j][i]=0;
             }
         }
 
     }
+    //Menu implementation after all of work are done without errors
     do{
         do{
             printf("\n 1.Compare strings with id");
@@ -82,14 +86,15 @@ int main()
         switch(choice){
     case 1:
         printf("\n Please input id respectively");
+        //Id means the position in array, if known
         printf("\n First ID : ");
         scanf("%d",&i);
         printf("\n Second ID : ");
         scanf("%d",&j);
-        if(wordGraph[i][j]== 1){
-        printf("\n WORD %s and WORD %s has %d edge",words[i],words[j],wordGraph[i][j]);}
+        if(wordGraph[i][j]== 1){//if it is 1; then it means there is an connection
+        printf("\n WORD %s and WORD %s has %d connection",words[i],words[j],wordGraph[i][j]);}
         else{
-            printf("\n NO EDGE");
+            printf("\n NO CONNECTION");
         }
         break;
     case 2:
@@ -102,6 +107,8 @@ int main()
         j = 0;
         tmp1 = 1;
         tmp2 = 1;
+        // increase i and j which will be positions on our array until we saw the input in word list
+        // so while will be broken when we get the position of them
         while(i < total ){
             tmp1 = strcmp(words[i], needle);
             if(tmp1==0){
@@ -115,21 +122,23 @@ int main()
                 break;
             }
             j++;
+
         }
+        //if any of the while go until end, it means that we cannot find the string
         if((i == total)||(j == total)){
             printf("\n String Not found ");
         }
-        else{
+        else{//else we found them and print positions and condition
             printf("\n positions %d :%d", i,j);
             if(wordGraph[i][j]== 1){
-        printf("\n WORD %s and WORD %s has %d edge",words[i],words[j],wordGraph[i][j]);}
+        printf("\n WORD %s and WORD %s has %d connection",words[i],words[j],wordGraph[i][j]);}
         else{
-            printf("\n NO EDGE");
+            printf("\n NO CONNECTION");
         }
         }
         break;
     default:
-        printf("\n End of program");
+        printf("\n End of program");//Before end, do not forget to free our matrix
         for(i = 0; i < total +1; i++)
         free(wordGraph[i]);
 	free(wordGraph);
