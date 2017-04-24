@@ -4,12 +4,14 @@
 
 #define BUF 10 /* can change the buffer size as well */
 #define TOT 2500
+int isEdge(char *s1, char *s2);
 int main()
 {
     char words[TOT][10];
     FILE *input;
     int i = 0;
     int j = 0;
+    int k;
     int total = 0;
     unsigned char **wordGraph;
     //declaring pointer for reading file
@@ -45,9 +47,20 @@ int main()
         exit(1);
         }
     }
+    for(i=0; i< total;i++){
+        wordGraph[i][i]=0;
+    }
     for(i = 0; i < total ; i++){
         for(j = i+1; j<total ; j++){
-
+                k = isEdge(words[i],words[j]);
+            if( k == 1){
+                wordGraph[i][j]=1;
+                wordGraph[j][i]=1;
+            }
+            else{
+                wordGraph[i][j]=0;
+                wordGraph[j][i]=0;
+            }
         }
 
     }
@@ -56,4 +69,16 @@ int main()
 	free(wordGraph);
 
     return 0;
+}
+int isEdge(char *s1, char *s2){
+int i,j;
+j = 0;
+for(i=0;i<6;i++){
+    if(s1[i]==s2[i]){
+    //printf("karakter %d ayni\n", i);
+
+    }
+    else{j++;}
+}
+return j;
 }
