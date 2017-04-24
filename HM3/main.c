@@ -11,7 +11,12 @@ int main()
     FILE *input;
     int i = 0;
     int j = 0;
+    int tmp1,tmp2;
+    char needle[10];
+    char needle2[10];
+    char *comp ;
     int k;
+    int choice;
     int total = 0;
     unsigned char **wordGraph;
     //declaring pointer for reading file
@@ -31,9 +36,10 @@ int main()
     }
     total = i;
     fclose(input);
+
     //now we got total number of words before closing input
     /*for(i = 0; i < total; i++){
-        printf("%d : %s\n",i, words[i]);}*/
+    printf("%d : %s\n",i, words[i]);}*/
     //We can allocate memory; NxN adjacent matrix
     wordGraph = malloc((total+1) * sizeof(unsigned char *));
     if(wordGraph == NULL){
@@ -64,10 +70,72 @@ int main()
         }
 
     }
+    do{
+        do{
+            printf("\n 1.Compare strings with id");
+            printf("\n 2.Compare strings with input");
+            printf("\n 3.Exit");
+            scanf("%d",&choice);
+            if(choice<1||choice>3)
+                printf("\n Invalid choice ");
+        }while(choice <1 || choice >3);
+        switch(choice){
+    case 1:
+        printf("\n Please input id respectively");
+        printf("\n First ID : ");
+        scanf("%d",&i);
+        printf("\n Second ID : ");
+        scanf("%d",&j);
+        if(wordGraph[i][j]== 1){
+        printf("\n WORD %s and WORD %s has %d edge",words[i],words[j],wordGraph[i][j]);}
+        else{
+            printf("\n NO EDGE");
+        }
+        break;
+    case 2:
 
-    for(i = 0; i < total +1; i++)
+        printf("\n Enter string 1 : ");
+        scanf("%s",needle);
+        printf("\n Enter string 2 : ");
+        scanf("%s", needle2);
+        i = 0;
+        j = 0;
+        tmp1 = 1;
+        tmp2 = 1;
+        while(i < total ){
+            tmp1 = strcmp(words[i], needle);
+            if(tmp1==0){
+                break;
+            }
+            i++;
+        }
+        while(j < total ){
+            tmp2 = strcmp(words[j], needle2);
+            if(tmp2==0){
+                break;
+            }
+            j++;
+        }
+        if((i == total)||(j == total)){
+            printf("\n String Not found ");
+        }
+        else{
+            printf("\n positions %d :%d", i,j);
+            if(wordGraph[i][j]== 1){
+        printf("\n WORD %s and WORD %s has %d edge",words[i],words[j],wordGraph[i][j]);}
+        else{
+            printf("\n NO EDGE");
+        }
+        }
+        break;
+    default:
+        printf("\n End of program");
+        for(i = 0; i < total +1; i++)
         free(wordGraph[i]);
 	free(wordGraph);
+        }
+    }while(choice != 3);
+
 
     return 0;
 }
