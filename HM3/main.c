@@ -145,7 +145,6 @@ int main()
         }
     }while(choice != 3);
 
-
     return 0;
 }
 int isEdge(char *s1, char *s2){
@@ -154,7 +153,6 @@ j = 0;
 for(i=0;i<6;i++){
     if(s1[i]==s2[i]){
     //printf("karakter %d ayni\n", i);
-
     }
     else{j++;}
 }
