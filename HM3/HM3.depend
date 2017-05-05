@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1494017872 source:c:\users\ozant\documents\github\datastructuresh3\hm3\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+

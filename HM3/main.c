@@ -4,13 +4,19 @@
 
 #define BUF 10 /* can change the buffer size as well */
 #define TOT 2500
+#define MAX 2414
 int isEdge(char *s1, char *s2);
+int queue[MAX];
+    int rear = -1;
+    int front = -1;
 int main()
 {
     char words[TOT][10];
+    int backqueue[MAX];
     FILE *input;
     int i = 0;
     int j = 0;
+    int tmpb = 0;
     int tmp1,tmp2;
     char needle[10];
     char needle2[10];
@@ -78,11 +84,12 @@ int main()
         do{
             printf("\n 1.Compare strings with id");
             printf("\n 2.Compare strings with input");
-            printf("\n 3.Exit");
+            printf("\n 3.Find Transaction between strings");
+            printf("\n 4.Exit");
             scanf("%d",&choice);
-            if(choice<1||choice>3)
+            if(choice<1||choice>4)
                 printf("\n Invalid choice ");
-        }while(choice <1 || choice >3);
+        }while(choice <1 || choice >4);
         switch(choice){
     case 1:
         printf("\n Please input id respectively");
@@ -98,7 +105,6 @@ int main()
         }
         break;
     case 2:
-
         printf("\n Enter string 1 : ");
         scanf("%s",needle);
         printf("\n Enter string 2 : ");
@@ -107,6 +113,7 @@ int main()
         j = 0;
         tmp1 = 1;
         tmp2 = 1;
+
         // increase i and j which will be positions on our array until we saw the input in word list
         // so while will be broken when we get the position of them
         while(i < total ){
@@ -122,7 +129,6 @@ int main()
                 break;
             }
             j++;
-
         }
         //if any of the while go until end, it means that we cannot find the string
         if((i == total)||(j == total)){
@@ -136,6 +142,55 @@ int main()
             printf("\n NO CONNECTION");
         }
         }
+        break;
+    case 3:
+        printf("\n Start string :");
+        scanf("%s",needle);
+        printf("\n Stop string :");
+        scanf("%s",needle2);
+        i = 0;
+        j = 0;
+        tmp1 = 1;
+        tmp2 = 1;
+        while(i < total ){
+            tmp1 = strcmp(words[i], needle);
+            if(tmp1==0){
+                break;
+            }
+            i++;
+        }
+        while(j < total ){
+            tmp2 = strcmp(words[j], needle2);
+            if(tmp2==0){
+                break;
+            }
+            j++;
+        }
+        // i and j are positions of words.
+        printf("First word pos : %d second word pos : %d \n",i,j);
+        insert(i);
+        backqueue[i] = 1;
+        int stop = 0;
+        while((front - rear != 1) && (queue[front] != j)){
+            stop = del();
+            if(stop == j){
+                printf("islem tamam \n");
+            }
+            else{
+                printf("%s ->",words[stop]);
+                for(k=0;k<total;k++){
+                    if(wordGraph[stop][k]==1){
+                        if(backqueue[k]!=1){
+                            backqueue[k] = 1;
+                            insert(k);
+                        }
+                    }
+                }
+                //printf("\n QUEUE \n");
+                //display();
+            }
+        }
+        printf("%s",words[j]);
         break;
     default:
         printf("\n End of program");//Before end, do not forget to free our matrix
@@ -157,4 +212,35 @@ for(i=0;i<6;i++){
     else{j++;}
 }
 return j;
+}
+insert(int id){
+    if(rear == 2413){
+        printf("Overflow\n");
+    }
+    else{
+        if(front == -1)
+            front = 0;
+            rear ++;
+            queue[rear]= id;
+
+    }
+}
+int del(){
+if(front == -1 ){
+    printf("Underflow \n");
+    return;
+}
+    else{
+        //printf("\n deleted item id is: %d \n", queue[front]);
+        front++;
+    }
+return queue[front -1];
+}
+display(){
+int p;
+for(p=front; p<= rear;p++){
+    printf("queue : %d ", queue[p]);
+    printf("\n");
+
+}
 }
