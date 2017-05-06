@@ -1944,7 +1944,7 @@ spate
 spawn
 speak
 spear
-speck
+speck	
 speed
 spell
 spend

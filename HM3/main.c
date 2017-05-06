@@ -2,10 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define BUF 10 /* can change the buffer size as well */
-#define TOT 2500
+#define BUF 10
+#define TOT 2414
 #define MAX 2414
 int isEdge(char *s1, char *s2);
+void filladj(unsigned char **wordGraph, int total,char words[TOT][10]);
+int findWord(char *needle,char words[TOT][10],int total);
 int queue[MAX];
     int rear = -1;
     int front = -1;
@@ -16,11 +18,9 @@ int main()
     FILE *input;
     int i = 0;
     int j = 0;
-    int tmpb = 0;
     int tmp1,tmp2;
     char needle[10];
     char needle2[10];
-    char *comp ;
     int k;
     int choice;
     int total = 0;
@@ -59,26 +59,13 @@ int main()
         exit(1);
         }
     }
-    //For edges it should be 0
+    //For edges it should be 0 first
     for(i=0; i< total;i++){
         wordGraph[i][i]=0;
     }
     //Fill adj. Matrix with isEdge function
     //Because it is symmetrical, i-j = j-i on matrix
-    for(i = 0; i < total ; i++){
-        for(j = i+1; j<total ; j++){
-                k = isEdge(words[i],words[j]);
-            if( k == 1){//if k = 1; then it means only 1 difference occured
-                wordGraph[i][j]=1;
-                wordGraph[j][i]=1;
-            }
-            else{//else fill with 0
-                wordGraph[i][j]=0;
-                wordGraph[j][i]=0;
-            }
-        }
-
-    }
+    filladj(wordGraph,total,words);
     //Menu implementation after all of work are done without errors
     do{
         do{
@@ -107,29 +94,10 @@ int main()
     case 2:
         printf("\n Enter string 1 : ");
         scanf("%s",needle);
+        i = findWord(needle,words,total);
         printf("\n Enter string 2 : ");
-        scanf("%s", needle2);
-        i = 0;
-        j = 0;
-        tmp1 = 1;
-        tmp2 = 1;
-
-        // increase i and j which will be positions on our array until we saw the input in word list
-        // so while will be broken when we get the position of them
-        while(i < total ){
-            tmp1 = strcmp(words[i], needle);
-            if(tmp1==0){
-                break;
-            }
-            i++;
-        }
-        while(j < total ){
-            tmp2 = strcmp(words[j], needle2);
-            if(tmp2==0){
-                break;
-            }
-            j++;
-        }
+        scanf("%s", needle);
+        j = findWord(needle,words,total);;
         //if any of the while go until end, it means that we cannot find the string
         if((i == total)||(j == total)){
             printf("\n String Not found ");
@@ -201,7 +169,7 @@ int main()
         if(queue[front] == j){
         printf("\n %s",words[j]);
         printf(" \n There is a path like : ");
-        int a, b = 0;
+
         do{
         printf("%s->",words[j]);
             //printf("parent : %d %s ",backqueue[j][1], words[backqueue[j][1]]);
@@ -226,6 +194,37 @@ int main()
     }while(choice != 4);
 
     return 0;
+}
+int findWord(char *needle,char words[TOT][10],int total){
+    int i = 0;
+    int tmp = 1;
+while(i < total ){
+            tmp = strcmp(words[i], needle);
+            if(tmp==0){
+                return i;
+            }
+            i++;
+        }
+        return i;
+}
+
+void filladj(unsigned char **wordGraph, int total,char words[TOT][10]){
+    int i,j,k;
+for(i = 0; i < total ; i++){
+        for(j = i+1; j<total ; j++){
+                k = isEdge(words[i],words[j]);
+            if( k == 1){//if k = 1; then it means only 1 difference occured
+                wordGraph[i][j]=1;
+                wordGraph[j][i]=1;
+            }
+            else{//else fill with 0
+                wordGraph[i][j]=0;
+                wordGraph[j][i]=0;
+            }
+        }
+
+    }
+
 }
 int isEdge(char *s1, char *s2){
 int i,j;
