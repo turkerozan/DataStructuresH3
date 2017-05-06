@@ -12,7 +12,7 @@ int queue[MAX];
 int main()
 {
     char words[TOT][10];
-    int backqueue[MAX];
+    int backqueue[MAX][2];
     FILE *input;
     int i = 0;
     int j = 0;
@@ -166,12 +166,17 @@ int main()
             }
             j++;
         }
+        for(k=0;k<MAX;k++){
+            backqueue[k][0] = 0;
+            backqueue[k][1] = -1;
+        }
         // i and j are positions of words.
         printf("First word pos : %d second word pos : %d \n",i,j);
         insert(i);
-        backqueue[i] = 1;
+        backqueue[i][0] = 1;
+        backqueue[i][1] = -2;
         int stop = 0;
-        while((front - rear != 1) && (queue[front] != j)){
+        while((front - rear !=1) && (queue[front] != j)){
             stop = del();
             if(stop == j){
                 printf("islem tamam \n");
@@ -180,8 +185,11 @@ int main()
                 printf("%s ->",words[stop]);
                 for(k=0;k<total;k++){
                     if(wordGraph[stop][k]==1){
-                        if(backqueue[k]!=1){
-                            backqueue[k] = 1;
+                           // printf("%s(%d) komsudur %s(%d)  ",words[stop],stop,words[k],k);
+                           // printf("\n backqueue %d \n", backqueue[k][0]);
+                        if(backqueue[k][0]!=1){
+                            backqueue[k][0] = 1;
+                            backqueue[k][1] = stop;
                             insert(k);
                         }
                     }
@@ -190,7 +198,24 @@ int main()
                 //display();
             }
         }
+        if(queue[front] == j){
+        printf("\n %s",words[j]);
+        printf(" \n There is a path like : ");
+        int a, b = 0;
+        do{
+        printf("%s->",words[j]);
+            //printf("parent : %d %s ",backqueue[j][1], words[backqueue[j][1]]);
+            j=backqueue[j][1];
+        }while(backqueue[j][1]!=-2);
+
+        }
         printf("%s",words[j]);
+        front = -1;
+        rear = -1;
+        for(k=0;k<MAX;k++){
+            backqueue[k][0]=0;
+            backqueue[k][1]=-1;
+        }
         break;
     default:
         printf("\n End of program");//Before end, do not forget to free our matrix
@@ -198,7 +223,7 @@ int main()
         free(wordGraph[i]);
 	free(wordGraph);
         }
-    }while(choice != 3);
+    }while(choice != 4);
 
     return 0;
 }
@@ -234,7 +259,7 @@ if(front == -1 ){
         //printf("\n deleted item id is: %d \n", queue[front]);
         front++;
     }
-return queue[front -1];
+return queue[front - 1];
 }
 display(){
 int p;
