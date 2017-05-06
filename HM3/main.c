@@ -4,23 +4,23 @@
 
 #define BUF 10
 #define TOT 2414
-#define MAX 2414
+
 int isEdge(char *s1, char *s2);
 void filladj(unsigned char **wordGraph, int total,char words[TOT][10]);
 int findWord(char *needle,char words[TOT][10],int total);
-int queue[MAX];
+void insert(int id);
+int del();
+int queue[TOT];
 int rear = -1;
 int front = -1;
 int main()
 {
     char words[TOT][10];
-    int backqueue[MAX][2];
+    int backqueue[TOT][2];
     FILE *input;
     int i = 0;
     int j = 0;
-    int tmp1,tmp2;
     char needle[10];
-    char needle2[10];
     int k;
     int choice;
     int total = 0;
@@ -121,7 +121,7 @@ int main()
         if((i == total)||(j == total)){
             printf("\n String not found");
         }else{
-        for(k=0;k<MAX;k++){
+        for(k=0;k<TOT;k++){
             backqueue[k][0] = 0;
             backqueue[k][1] = -1;
         }
@@ -171,7 +171,7 @@ int main()
         }
         front = -1;
         rear = -1;
-        for(k=0;k<MAX;k++){
+        for(k=0;k<TOT;k++){
             backqueue[k][0]=0;
             backqueue[k][1]=-1;
         }
@@ -230,13 +230,13 @@ for(i=0;i<6;i++){
 }
 return j;
 }
-insert(int id){
-    if(rear == 2413){
+void insert(int id){
+    if(rear == 2414){
         printf("Overflow\n");
     }
     else{
-        if(front == -1)
-            front = 0;
+        if(front == -1){
+            front = 0;}
             rear ++;
             queue[rear]= id;
 
@@ -248,16 +248,8 @@ if(front == -1 ){
     return;
 }
     else{
-        //printf("\n deleted item id is: %d \n", queue[front]);
         front++;
     }
 return queue[front - 1];
 }
-display(){
-int p;
-for(p=front; p<= rear;p++){
-    printf("queue : %d ", queue[p]);
-    printf("\n");
 
-}
-}
