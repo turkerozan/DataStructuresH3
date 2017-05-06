@@ -130,6 +130,7 @@ int main()
         if((i == total+1)||(j == total+1)){
             printf("\n String not found");
         }else{//if we found strings, than initilaze backqueue array with 0 and -1, 0 means no visited, -1 is parent id which is not avaible for first time
+            //RESET BACKQUEUE
         for(k=0;k<TOT;k++){
             backqueue[k][0] = 0;
             backqueue[k][1] = -1;
@@ -180,6 +181,7 @@ int main()
         }
         front = -1;//when all calculations done, reset the queue
         rear = -1;
+         //RESET BACKQUEUE
         for(k=0;k<TOT;k++){//also reset the backqueue
             backqueue[k][0]=0;
             backqueue[k][1]=-1;
