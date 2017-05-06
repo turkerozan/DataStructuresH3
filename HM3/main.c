@@ -1,3 +1,13 @@
+/* @source Yıldız Technical University, İstanbul
+** avaible @ www.github.com/turkerozan/dataStructuresH3
+** This was created for assigment solution, no requests will be accepted
+** All viewer and/or forkers will be reported to instructor if it is requested
+** If there is a copy situation, there is a lots of proof in github so you can see author, so be careful
+**
+** @author: Ozan Turker Demir, (ozanturkerdemir@gmail.com)
+** @@
+**
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -44,8 +54,8 @@ int main()
 
     //now we got total number of words before closing input
     //for debug purpose
-    for(i = 0; i < total; i++){
-    printf("%d : %s\n",i, words[i]);}
+   // for(i = 0; i < total; i++){
+    //printf("%d : %s\n",i, words[i]);}
     //We can allocate memory; NxN adjacent matrix
     wordGraph = malloc((total+1) * sizeof(unsigned char *));//total+1 becuase iterator start with 0 but we need +1 more for memory
     if(wordGraph == NULL){
@@ -193,7 +203,7 @@ int findWord(char *needle,char words[TOT][10],int total){
 while(i <= total ){//start 0 to total, if strcmp returns 0, then it means we found word, return it number
             tmp = strcmp(words[i], needle);
             if(tmp==0){
-                    printf("%d",i);
+                    //printf("%d",i);
                 return i;
             }
             i++;
@@ -207,7 +217,7 @@ for(i = 0; i <= total ; i++){
         for(j = i+1; j<total ; j++){
                 k = isEdge(words[i],words[j]);//edge returns number of different chars
             if( k == 1){//if k = 1; then it means only 1 difference occured
-                wordGraph[i][j]=1;//it is symettrical
+                wordGraph[i][j]=1;//it is symetrical
                 wordGraph[j][i]=1;//thats why i,j = j,i
             }
             else{//else fill with 0
