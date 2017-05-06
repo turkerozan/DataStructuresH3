@@ -9,8 +9,8 @@ int isEdge(char *s1, char *s2);
 void filladj(unsigned char **wordGraph, int total,char words[TOT][10]);
 int findWord(char *needle,char words[TOT][10],int total);
 int queue[MAX];
-    int rear = -1;
-    int front = -1;
+int rear = -1;
+int front = -1;
 int main()
 {
     char words[TOT][10];
@@ -114,26 +114,13 @@ int main()
     case 3:
         printf("\n Start string :");
         scanf("%s",needle);
+        i = findWord(needle,words,total);
         printf("\n Stop string :");
-        scanf("%s",needle2);
-        i = 0;
-        j = 0;
-        tmp1 = 1;
-        tmp2 = 1;
-        while(i < total ){
-            tmp1 = strcmp(words[i], needle);
-            if(tmp1==0){
-                break;
-            }
-            i++;
-        }
-        while(j < total ){
-            tmp2 = strcmp(words[j], needle2);
-            if(tmp2==0){
-                break;
-            }
-            j++;
-        }
+        scanf("%s",needle);
+        j = findWord(needle,words,total);
+        if((i == total)||(j == total)){
+            printf("\n String not found");
+        }else{
         for(k=0;k<MAX;k++){
             backqueue[k][0] = 0;
             backqueue[k][1] = -1;
@@ -143,7 +130,7 @@ int main()
         insert(i);
         backqueue[i][0] = 1;
         backqueue[i][1] = -2;
-        int stop = 0;
+        int stop = -1;
         while((front - rear !=1) && (queue[front] != j)){
             stop = del();
             if(stop == j){
@@ -169,20 +156,26 @@ int main()
         if(queue[front] == j){
         printf("\n %s",words[j]);
         printf(" \n There is a path like : ");
-
+        k=0;
         do{
-        printf("%s->",words[j]);
-            //printf("parent : %d %s ",backqueue[j][1], words[backqueue[j][1]]);
-            j=backqueue[j][1];
+                k++;
+                printf("%s->",words[j]);
+                //printf("parent : %d %s ",backqueue[j][1], words[backqueue[j][1]]);
+                j=backqueue[j][1];
         }while(backqueue[j][1]!=-2);
-
-        }
         printf("%s",words[j]);
+        printf("\n Total step size is : %d ",k);
+        }
+        else{
+            printf("\n No path found ");
+        }
         front = -1;
         rear = -1;
         for(k=0;k<MAX;k++){
             backqueue[k][0]=0;
             backqueue[k][1]=-1;
+        }
+
         }
         break;
     default:
