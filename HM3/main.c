@@ -146,7 +146,7 @@ int main()
                 printf("islem tamam \n");
             }
             else{
-                printf("%s ->",words[stop]);//print that word
+                printf("%s ||",words[stop]);//print that word
                 for(k=0;k<total;k++){
                     if(wordGraph[stop][k]==1){//get connected nodes
                            // printf("%s(%d) komsudur %s(%d)  ",words[stop],stop,words[k],k);
@@ -225,10 +225,9 @@ for(i = 0; i <= total ; i++){
                 wordGraph[j][i]=0;
             }
         }
-
     }
-
 }
+
 int isEdge(char *s1, char *s2){
 int i,j;
 j = 0;//this function gets two strings
@@ -240,6 +239,7 @@ for(i=0;i<6;i++){//max number of char is 5, so we compare to 5
 }
 return j;//return amount of chars that are different
 }
+
 void insert(int id){
     if(rear == 2414){//if we hit the size of stack
         printf("overflow error \n");
